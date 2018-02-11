@@ -21,12 +21,38 @@ namespace TVDBSharp.Services
         /// Searches for Series based on the Title.
         /// </summary>
         /// <param name="query">Series Title Query</param>
-        /// <returns>List of Series results</returns>
+        /// <returns>List of Series results or null if none where found</returns>
         public async Task<IReadOnlyCollection<TVDBSeriesQuery>> FindSeries(string query)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/search/series?name={query}");
             var result = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<TVDBSeriesSearchResponse>(result).Data;
+        }
+
+        /// <summary>
+        /// Finds the series with matching IMDB ID.
+        /// </summary>
+        /// <param name="imdbId">Series IMDB ID</param>
+        /// <returns>The series with matching IMDB ID or null</returns>
+        public async Task<TVDBSeriesQuery> FindSeriesByImdbId(string imdbId)
+        {
+            var response = await GetAsync(ApiConfiguration.BaseUrl + $"/search/series?imdbId={imdbId}");
+            var jsonData = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<TVDBSeriesSearchResponse>(jsonData).Data;
+            return result?.First();
+        }
+
+        /// <summary>
+        /// Finds the series with matching Zap2it ID.
+        /// </summary>
+        /// <param name="zap2itId">Series Zap2it ID</param>
+        /// <returns>The series with matching Zap2it ID or null</returns>
+        public async Task<TVDBSeriesQuery> FindSeriesByZap2ItId(string zap2itId)
+        {
+            var response = await GetAsync(ApiConfiguration.BaseUrl + $"/search/series?zap2itId={zap2itId}");
+            var jsonData = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<TVDBSeriesSearchResponse>(jsonData).Data;
+            return result?.First();
         }
 
         /// <summary>
