@@ -6,17 +6,20 @@ using TVDBSharp.Models.Responses;
 
 namespace TVDBSharp.Services
 {
-    public class ActorService : ScraperBase
+    /// <summary>
+    /// Methods relating to Actor Information.
+    /// </summary>
+    public class ActorService : ServiceBase
     {
-        public ActorService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
+        internal ActorService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
         {
         }
 
         /// <summary>
-        /// Fetches Episodes for a Series.
+        /// Fetches Actors for a Series.
         /// </summary>
-        /// <param name="SeriesID">Series to Fetch Episodes from</param>
-        /// <returns>List of Episodes</returns>
+        /// <param name="SeriesID">Series to Fetch Actors from</param>
+        /// <returns>List of Actors</returns>
         public async Task<IReadOnlyList<TVDBActor>> GetActors(uint SeriesID)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/actors");

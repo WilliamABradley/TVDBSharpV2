@@ -1,6 +1,6 @@
 ﻿namespace TVDBSharp.Models.Responses
 {
-    public class TVDBEpisodesQueryResponse
+    internal class TVDBEpisodesQueryResponse
     {
         public TVDBEpisodesQuery Data { get; set; }
     }

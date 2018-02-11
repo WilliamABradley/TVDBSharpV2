@@ -2,7 +2,7 @@
 
 namespace TVDBSharp.Models.Responses
 {
-    public class TVDBActorsResponse
+    internal class TVDBActorsResponse
     {
         public List<TVDBActor> Data { get; set; }
     }

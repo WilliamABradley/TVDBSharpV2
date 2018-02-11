@@ -2,7 +2,7 @@
 
 namespace TVDBSharp.Models.Responses
 {
-    public class TVDBEpisodesResponse
+    internal class TVDBEpisodesResponse
     {
         public TVDBPagingData Links { get; set; }
         public List<TVDBEpisodeSummary> Data { get; set; }

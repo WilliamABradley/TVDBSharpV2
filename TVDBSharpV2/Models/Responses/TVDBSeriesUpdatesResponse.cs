@@ -2,8 +2,8 @@
 
 namespace TVDBSharp.Models.Responses
 {
-    public class TVDBSeriesUpdatesResponse
+    internal class TVDBSeriesUpdatesResponse
     {
-        public IReadOnlyCollection<TVDBUpdate> data { get; set; }
+        public IReadOnlyCollection<TVDBUpdate> Data { get; set; }
     }
 }

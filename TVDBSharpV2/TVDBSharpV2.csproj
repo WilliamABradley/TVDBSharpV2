@@ -5,8 +5,18 @@
     <Title>TVDBSharpV2</Title>
     <Authors>WilliamABradley</Authors>
     <Description>A TVDB V2 API for .NET</Description>
-    <Version>1.0.0</Version>
+    <PackageProjectUrl>https://github.com/WilliamABradley/TVDBSharpV2</PackageProjectUrl>
+    <PackageTags>TVDB TVDBSharp .NET c# TVDBV2 TVDBAPI API</PackageTags>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>-Added Documentation
+-Internalised constructors and responses.
+-Moved QueryEpisodes to the EpisodesService.
+-AuthenticationService GetJwtToken now returns a TVDBJwtToken.</PackageReleaseNotes>
+    <PackageLicenseUrl>https://github.com/WilliamABradley/TVDBSharpV2/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright © William Bradley 2018</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
