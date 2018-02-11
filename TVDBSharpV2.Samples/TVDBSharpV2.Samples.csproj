@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>TVDBSharpV2.Samples</AssemblyName>
+    <RootNamespace>TVDBSharp</RootNamespace>
+    <LangVersion>Latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WilliamBradley.ConsoleHelpers" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TVDBSharpV2\TVDBSharpV2.csproj" />
+  </ItemGroup>
+
+</Project>

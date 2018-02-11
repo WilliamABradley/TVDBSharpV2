@@ -7,11 +7,24 @@
     <Description>A TVDB V2 API for .NET</Description>
     <PackageProjectUrl>https://github.com/WilliamABradley/TVDBSharpV2</PackageProjectUrl>
     <PackageTags>TVDB TVDBSharp .NET c# TVDBV2 TVDBAPI API</PackageTags>
-    <Version>1.1.0</Version>
-    <PackageReleaseNotes>-Added Documentation
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>-DownPorted to NETStandard1.3
+
+-Added Documentation
+
 -Internalised constructors and responses.
+
 -Moved QueryEpisodes to the EpisodesService.
--AuthenticationService GetJwtToken now returns a TVDBJwtToken.</PackageReleaseNotes>
+
+-AuthenticationService GetJwtToken now returns a TVDBJwtToken.
+
+-Fixed Exceptions when serializing some models.
+
+-Renamed BadResponseException to TVDBBadResponseException, now not all BadResponses get turned into TVDBNotAvailableExceptions.
+
+-Fixed Fanart and Poster inclusion getting the least Rated images.
+
+-Fixed issue with Specifiying only a Token when constructing TVDBManager.</PackageReleaseNotes>
     <PackageLicenseUrl>https://github.com/WilliamABradley/TVDBSharpV2/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright © William Bradley 2018</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

@@ -71,15 +71,7 @@ namespace TVDBSharp
         /// </summary>
         /// <param name="Token">The Authenticated Token provided by TVDB, by entering API key, Login Details into Login Function</param>
         /// <param name="baseUrl">The API base url</param>
-        public TVDBManager(string Token, string BaseUrl = DefaultUrl) : this(new TVDBConfiguration(Token, BaseUrl))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance with the  base api url, can only be used to Auth
-        /// </summary>
-        /// <param name="BaseUrl"></param>
-        public TVDBManager(string BaseUrl = DefaultUrl) : this(new TVDBConfiguration(null, BaseUrl))
+        public TVDBManager(string Token = null, string BaseUrl = DefaultUrl) : this(new TVDBConfiguration(Token, BaseUrl))
         {
         }
 

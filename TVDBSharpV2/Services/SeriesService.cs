@@ -46,12 +46,12 @@ namespace TVDBSharp.Services
                 var posters = await GetSeriesPosters(SeriesID);
                 var fanarts = await GetSeriesFanart(SeriesID);
 
-                var poster = posters.OrderBy(item => item.RatingsInfo.Average)
-                    .ThenBy(item => item.RatingsInfo.Count)
+                var poster = posters.OrderByDescending(item => item.RatingsInfo.Average)
+                    .ThenByDescending(item => item.RatingsInfo.Count)
                     .FirstOrDefault();
 
-                var fanart = fanarts.OrderBy(item => item.RatingsInfo.Average)
-                    .ThenBy(item => item.RatingsInfo.Count)
+                var fanart = fanarts.OrderByDescending(item => item.RatingsInfo.Average)
+                    .ThenByDescending(item => item.RatingsInfo.Count)
                     .FirstOrDefault();
 
                 series.Poster = poster?.FileName;

@@ -5,6 +5,13 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TVDBSharpV2", "TVDBSharpV2\TVDBSharpV2.csproj", "{1FB72022-FF84-4C7B-89C4-DECFC91DA0CF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C2770D69-5B50-47A8-839E-691065288DB4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TVDBSharpV2.Samples", "TVDBSharpV2.Samples\TVDBSharpV2.Samples.csproj", "{0579F95A-F30D-43BB-BEC4-56EA766D65D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{1FB72022-FF84-4C7B-89C4-DECFC91DA0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FB72022-FF84-4C7B-89C4-DECFC91DA0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FB72022-FF84-4C7B-89C4-DECFC91DA0CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0579F95A-F30D-43BB-BEC4-56EA766D65D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0579F95A-F30D-43BB-BEC4-56EA766D65D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0579F95A-F30D-43BB-BEC4-56EA766D65D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0579F95A-F30D-43BB-BEC4-56EA766D65D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

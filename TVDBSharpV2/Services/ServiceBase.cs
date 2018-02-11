@@ -37,13 +37,17 @@ namespace TVDBSharp.Services
                 {
                     CreateHeaders(client, requiresAuth);
                     var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead);
-                    if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.NotFound) throw new Exception(response.StatusCode.ToString());
+                    if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.NotFound)
+                    {
+                        throw new TVDBBadResponseException(response.StatusCode);
+                    }
                     return response;
                 }
             }
-            catch (Exception e)
+            catch (TVDBBadResponseException ex) { throw ex; }
+            catch (Exception inner)
             {
-                throw new TVDBNotAvailableException(inner: e);
+                throw new TVDBNotAvailableException(inner: inner);
             }
         }
 
@@ -59,14 +63,15 @@ namespace TVDBSharp.Services
                 {
                     //CreateHeaders(client);
                     var response = await client.PostAsync(uri, new StringContent(data, new System.Text.UTF8Encoding(), "application/json"));
-                    if (!response.IsSuccessStatusCode) throw new Exception(response.StatusCode.ToString());
+                    if (!response.IsSuccessStatusCode) throw new TVDBBadResponseException(response.StatusCode);
 
                     return response;
                 }
             }
-            catch (Exception e)
+            catch (TVDBBadResponseException ex) { throw ex; }
+            catch (Exception inner)
             {
-                throw new TVDBNotAvailableException(inner: e);
+                throw new TVDBNotAvailableException(inner: inner);
             }
         }
     }
