@@ -1,7 +1,7 @@
 ﻿namespace TVDBSharp.Enums
 {
     /// <summary>
-    ///     Describes the current status of a show.
+    /// Describes the current status of a show.
     /// </summary>
     public enum Status
     {

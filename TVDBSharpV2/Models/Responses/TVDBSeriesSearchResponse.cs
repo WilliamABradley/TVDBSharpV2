@@ -2,7 +2,7 @@
 
 namespace TVDBSharp.Models.Responses
 {
-    public class TVDBSeriesSearchResponse
+    internal class TVDBSeriesSearchResponse
     {
         public IReadOnlyCollection<TVDBSeriesQuery> Data { get; set; }
     }

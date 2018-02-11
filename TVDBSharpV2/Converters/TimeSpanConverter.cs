@@ -3,7 +3,10 @@ using System;
 
 namespace TVDBSharp.Converters
 {
-    public class TimeSpanConverter : JsonConverter
+    /// <summary>
+    /// Converts a TimeSpan to DateTime.
+    /// </summary>
+    internal class TimeSpanConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

@@ -13,40 +13,19 @@ namespace TVDBSharp.Models.Requests
     /// <summary>
     /// Fetches TVDBSeries, filtered to only show specific properties, using includeProperty() method. If not awaited, task can be created by accessing Task Property.
     /// </summary>
-    public class SeriesFilterRequest : ScraperBase
+    public class SeriesFilterRequest : ServiceBase
     {
-        private uint SeriesID;
-
-        public SeriesFilterRequest(TVDBConfiguration apiConfiguration, uint SeriesID) : base(apiConfiguration)
+        internal SeriesFilterRequest(TVDBConfiguration apiConfiguration, uint SeriesID) : base(apiConfiguration)
         {
             this.SeriesID = SeriesID;
         }
 
-        private List<string> IncludedProperties = new List<string>();
-
-        private Task<TVDBSeries> _Task;
-        public Task<TVDBSeries> Task { get { if (_Task == null) { _Task = GetFilterSeries(); } return _Task; } }
-
+        /// <summary>
+        /// Gets the Awaiter from the internal Task.
+        /// </summary>
         public System.Runtime.CompilerServices.TaskAwaiter<TVDBSeries> GetAwaiter()
         {
             return Task.GetAwaiter();
-        }
-
-        private async Task<TVDBSeries> GetFilterSeries()
-        {
-            string query = "/filter?keys=";
-            foreach (var property in IncludedProperties)
-            {
-                query += property;
-                if (property != IncludedProperties.Last()) query += ",";
-            }
-            var request = ApiConfiguration.BaseUrl + $"/series/{SeriesID}";
-            if (IncludedProperties.Any()) request += query;
-            var response = await GetAsync(request);
-            var result = await response.Content.ReadAsStringAsync();
-            var series = JsonConvert.DeserializeObject<TVDBSeriesResponse>(result).Data;
-            series.ID = SeriesID;
-            return series;
         }
 
         /// <summary>
@@ -72,5 +51,38 @@ namespace TVDBSharp.Models.Requests
             IncludedProperties.Add(propInfo.Name);
             return this;
         }
+
+        /// <summary>
+        /// The actual task.
+        /// </summary>
+        private async Task<TVDBSeries> GetFilterSeries()
+        {
+            string query = "/filter?keys=";
+            foreach (var property in IncludedProperties)
+            {
+                query += property;
+                if (property != IncludedProperties.Last()) query += ",";
+            }
+            var request = ApiConfiguration.BaseUrl + $"/series/{SeriesID}";
+            if (IncludedProperties.Any()) request += query;
+            var response = await GetAsync(request);
+            var result = await response.Content.ReadAsStringAsync();
+            var series = JsonConvert.DeserializeObject<TVDBSeriesResponse>(result).Data;
+            series.ID = SeriesID;
+            return series;
+        }
+
+        /// <summary>
+        /// The SeriesID of this Request.
+        /// </summary>
+        public uint SeriesID { get; }
+
+        /// <summary>
+        /// Gets the internal Task, accessing or fetching the property will begin the API call, meaning that you should do this once all properties are included.
+        /// </summary>
+        public Task<TVDBSeries> Task { get { if (_Task == null) { _Task = GetFilterSeries(); } return _Task; } }
+
+        private Task<TVDBSeries> _Task;
+        private List<string> IncludedProperties = new List<string>();
     }
 }

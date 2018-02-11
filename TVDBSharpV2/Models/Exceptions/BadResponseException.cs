@@ -3,11 +3,17 @@ using System.Net;
 
 namespace TVDBSharp.Models.Exceptions
 {
+    /// <summary>
+    /// The TVDB API responded with an Error.
+    /// </summary>
     public class BadResponseException : Exception
     {
+        /// <summary>
+        /// Http Status Code of Response.
+        /// </summary>
         public HttpStatusCode StatusCode { get; }
 
-        public BadResponseException(HttpStatusCode statusCode, string message = "Bad response", Exception inner = null)
+        internal BadResponseException(HttpStatusCode statusCode, string message = "Bad response", Exception inner = null)
             : base(message, inner)
         {
             StatusCode = statusCode;

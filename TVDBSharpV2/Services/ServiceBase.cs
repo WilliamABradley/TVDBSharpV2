@@ -5,15 +5,21 @@ using TVDBSharp.Models.Exceptions;
 
 namespace TVDBSharp.Services
 {
-    public abstract class ScraperBase
+    /// <summary>
+    /// Internal Http client for calls to the TVDB API.
+    /// </summary>
+    public abstract class ServiceBase
     {
-        protected TVDBConfiguration ApiConfiguration { get; }
+        internal TVDBConfiguration ApiConfiguration { get; }
 
-        protected ScraperBase(TVDBConfiguration apiConfiguration)
+        internal ServiceBase(TVDBConfiguration apiConfiguration)
         {
             this.ApiConfiguration = apiConfiguration ?? throw new ArgumentNullException(nameof(apiConfiguration));
         }
 
+        /// <summary>
+        /// Creates Authentication Headers for the Client.
+        /// </summary>
         private void CreateHeaders(HttpClient client, bool requiresAuth)
         {
             if (requiresAuth) client.DefaultRequestHeaders.Add("Authorization", ApiConfiguration.Token);
@@ -37,7 +43,7 @@ namespace TVDBSharp.Services
             }
             catch (Exception e)
             {
-                throw new ServerNotAvailableException(inner: e);
+                throw new TVDBNotAvailableException(inner: e);
             }
         }
 
@@ -60,7 +66,7 @@ namespace TVDBSharp.Services
             }
             catch (Exception e)
             {
-                throw new ServerNotAvailableException(inner: e);
+                throw new TVDBNotAvailableException(inner: e);
             }
         }
     }

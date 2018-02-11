@@ -1,6 +1,6 @@
 ﻿namespace TVDBSharp.Models.Responses
 {
-    public class TVDBSeriesResponse
+    internal class TVDBSeriesResponse
     {
         public TVDBSeries Data { get; set; }
     }

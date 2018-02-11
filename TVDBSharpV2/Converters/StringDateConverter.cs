@@ -4,7 +4,10 @@ using System.Globalization;
 
 namespace TVDBSharp.Converters
 {
-    public class StringDateConverter : JsonConverter
+    /// <summary>
+    /// Converts string Dates to DateTime.
+    /// </summary>
+    internal class StringDateConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

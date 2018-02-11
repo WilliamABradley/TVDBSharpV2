@@ -1,6 +1,6 @@
 ﻿namespace TVDBSharp.Models
 {
-    public class TVDBPagingData
+    internal class TVDBPagingData
     {
         public int First { get; set; }
         public int Last { get; set; }

@@ -7,10 +7,26 @@ using TVDBSharp.Models.Responses;
 
 namespace TVDBSharp.Services
 {
-    public class EpisodesService : ScraperBase
+    /// <summary>
+    /// Methods relating to fetching Episode information for a Series.
+    /// </summary>
+    public class EpisodesService : ServiceBase
     {
-        public EpisodesService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
+        internal EpisodesService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
         {
+        }
+
+        /// <summary>
+        /// Queries Episodes for a Series.
+        /// </summary>
+        /// <param name="SeriesID">Series to Query Episodes from</param>
+        /// <returns>Episode information for Series</returns>
+        public async Task<TVDBEpisodesQuery> QueryEpisodes(uint SeriesID)
+        {
+            var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/episodes/summary");
+            var result = await response.Content.ReadAsStringAsync();
+            var data = JsonConvert.DeserializeObject<TVDBEpisodesQueryResponse>(result).Data;
+            return data;
         }
 
         /// <summary>
@@ -36,6 +52,11 @@ namespace TVDBSharp.Services
             return Episodes.OrderBy(item => item.SeasonNumber).ThenBy(item => item.EpisodeNumber).ToList();
         }
 
+        /// <summary>
+        /// Gets a singular Episode from it's Episode ID.
+        /// </summary>
+        /// <param name="EpisodeID">Episode ID</param>
+        /// <returns>Episode Information</returns>
         public async Task<TVDBEpisode> GetEpisode(uint EpisodeID)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/episodes/{EpisodeID}");

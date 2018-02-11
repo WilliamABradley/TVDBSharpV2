@@ -8,12 +8,20 @@ using TVDBSharp.Models.Responses;
 
 namespace TVDBSharp.Services
 {
-    public class SeriesService : ScraperBase
+    /// <summary>
+    /// Methods relating to fetching Series Information.
+    /// </summary>
+    public class SeriesService : ServiceBase
     {
-        public SeriesService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
+        internal SeriesService(TVDBConfiguration apiConfiguration) : base(apiConfiguration)
         {
         }
 
+        /// <summary>
+        /// Searches for Series based on the Title.
+        /// </summary>
+        /// <param name="query">Series Title Query</param>
+        /// <returns>List of Series results</returns>
         public async Task<IReadOnlyCollection<TVDBSeriesQuery>> FindSeries(string query)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/search/series?name={query}");
@@ -21,44 +29,69 @@ namespace TVDBSharp.Services
             return JsonConvert.DeserializeObject<TVDBSeriesSearchResponse>(result).Data;
         }
 
-        public async Task<TVDBSeries> GetSeries(uint SeriesID)
+        /// <summary>
+        /// Gets Series Information for the Series ID.
+        /// </summary>
+        /// <param name="SeriesID">Series ID of Series</param>
+        /// <param name="IncludeArtwork">Include Artwork in the Request?</param>
+        /// <returns>Series Information</returns>
+        public async Task<TVDBSeries> GetSeries(uint SeriesID, bool IncludeArtwork = false)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}");
             var result = await response.Content.ReadAsStringAsync();
             var series = JsonConvert.DeserializeObject<TVDBSeriesResponse>(result).Data;
 
-            var poster = await GetSeriesPoster(SeriesID);
-            var fanart = await GetSeriesFanart(SeriesID);
-            series.Poster = poster.FileName;
-            series.Fanart = fanart.FileName;
+            if (IncludeArtwork)
+            {
+                var posters = await GetSeriesPosters(SeriesID);
+                var fanarts = await GetSeriesFanart(SeriesID);
+
+                var poster = posters.OrderBy(item => item.RatingsInfo.Average)
+                    .ThenBy(item => item.RatingsInfo.Count)
+                    .FirstOrDefault();
+
+                var fanart = fanarts.OrderBy(item => item.RatingsInfo.Average)
+                    .ThenBy(item => item.RatingsInfo.Count)
+                    .FirstOrDefault();
+
+                series.Poster = poster?.FileName;
+                series.Fanart = fanart?.FileName;
+            }
 
             return series;
         }
 
-        public async Task<TVDBArtwork> GetSeriesPoster(uint SeriesID)
+        /// <summary>
+        /// Gets the Posters for this Series.
+        /// </summary>
+        /// <param name="SeriesID">Series to get Posters for.</param>
+        /// <returns>List of Posters</returns>
+        public async Task<IReadOnlyList<TVDBArtwork>> GetSeriesPosters(uint SeriesID)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/images/query?keyType=poster");
             var result = await response.Content.ReadAsStringAsync();
             var posters = JsonConvert.DeserializeObject<TVDBArtworkResponse>(result).Data;
-            return posters.Any() ? posters.First() : null;
+            return posters.Any() ? posters : null;
         }
 
-        public async Task<TVDBArtwork> GetSeriesFanart(uint SeriesID)
+        /// <summary>
+        /// Gets the Fanart for this Series.
+        /// </summary>
+        /// <param name="SeriesID">Series to get Fanart for.</param>
+        /// <returns>List of Fanart</returns>
+        public async Task<IReadOnlyList<TVDBArtwork>> GetSeriesFanart(uint SeriesID)
         {
             var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/images/query?keyType=fanart");
             var result = await response.Content.ReadAsStringAsync();
             var fanart = JsonConvert.DeserializeObject<TVDBArtworkResponse>(result).Data;
-            return fanart.Any() ? fanart.First() : null;
+            return fanart.Any() ? fanart : null;
         }
 
-        public async Task<TVDBEpisodesQuery> QueryEpisodes(uint SeriesID)
-        {
-            var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/episodes/summary");
-            var result = await response.Content.ReadAsStringAsync();
-            var data = JsonConvert.DeserializeObject<TVDBEpisodesQueryResponse>(result).Data;
-            return data;
-        }
-
+        /// <summary>
+        /// Gets a Series only with specified properties.
+        /// </summary>
+        /// <param name="SeriesID">Series ID to fetch.</param>
+        /// <returns></returns>
         public SeriesFilterRequest GetFilteredSeries(uint SeriesID)
         {
             return new SeriesFilterRequest(ApiConfiguration, SeriesID);

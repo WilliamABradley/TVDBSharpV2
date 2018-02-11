@@ -4,7 +4,10 @@ using TVDBSharp.Common;
 
 namespace TVDBSharp.Converters
 {
-    public class EpochTimeConverter : JsonConverter
+    /// <summary>
+    /// Converts Epoch Time in Json to DateTime.
+    /// </summary>
+    internal class EpochTimeConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
