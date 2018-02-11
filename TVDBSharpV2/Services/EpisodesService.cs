@@ -30,11 +30,11 @@ namespace TVDBSharp.Services
         }
 
         /// <summary>
-        /// Fetches Episodes for a Series.
+        /// Fetches all Episodes from every season for a Series.
         /// </summary>
         /// <param name="SeriesID">Series to Fetch Episodes from</param>
         /// <returns>List of Episodes</returns>
-        public async Task<IReadOnlyList<TVDBEpisodeSummary>> GetEpisodes(uint SeriesID)
+        public async Task<IReadOnlyList<TVDBEpisodeSummary>> GetAllEpisodes(uint SeriesID)
         {
             int page = 1;
             List<TVDBEpisodeSummary> Episodes = new List<TVDBEpisodeSummary>();
@@ -50,6 +50,42 @@ namespace TVDBSharp.Services
                 page++;
             }
             return Episodes.OrderBy(item => item.SeasonNumber).ThenBy(item => item.EpisodeNumber).ToList();
+        }
+
+        /// <summary>
+        /// Fetches all Episodes from every season for a Series.
+        /// </summary>
+        /// <param name="SeriesID">Series to Fetch Episodes from</param>
+        /// <returns>List of Episodes</returns>
+        public async Task<IReadOnlyList<TVDBEpisodeSummary>> GetEpisodesForSeason(uint SeriesID, uint airedSeason)
+        {
+            int page = 1;
+            List<TVDBEpisodeSummary> Episodes = new List<TVDBEpisodeSummary>();
+            while (true)
+            {
+                var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/episodes/query?airedSeason={airedSeason}&page={page}");
+                var result = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<TVDBEpisodesResponse>(result);
+
+                Episodes.AddRange(data.Data);
+
+                if (data.Links.Next == null) break;
+                page++;
+            }
+            return Episodes.OrderBy(item => item.EpisodeNumber).ToList();
+        }
+
+        /// <summary>
+        /// Fetches the specific Episodes from a specific season.
+        /// </summary>
+        /// <param name="SeriesID">Series to Fetch Episodes from</param>
+        /// <returns>List of Episodes</returns>
+        public async Task<TVDBEpisodeSummary> GetEpisode(uint SeriesID, uint airedSeason, uint airedEpisode)
+        {
+            var response = await GetAsync(ApiConfiguration.BaseUrl + $"/series/{SeriesID}/episodes/query?airedSeason={airedSeason}&airedEpisode={airedEpisode}");
+            var result = await response.Content.ReadAsStringAsync();
+            var data = JsonConvert.DeserializeObject<TVDBEpisodesResponse>(result).Data;
+            return data?.First();
         }
 
         /// <summary>
