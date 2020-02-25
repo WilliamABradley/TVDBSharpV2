@@ -13,6 +13,11 @@
         /// <summary>
         ///     The show is ongoing.
         /// </summary>
-        Continuing
+        Continuing,
+        
+        /// <summary>
+        /// The show is upcoming
+        /// </summary>
+        Upcoming
     }
 }
